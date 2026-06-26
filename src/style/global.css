@@ -1,0 +1,33 @@
+@font-face {
+  font-family: Satoshi-Bold;
+  src: url('../assets/font/Satoshi-Bold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: Satoshi-Medium;
+  src: url('../assets/font/Satoshi-Medium.woff2') format('woff2');
+}
+
+:root {
+  --color-background: #020005;
+  --color-background-nav-bar: #0c0a17;
+  --color-background-search-bar: #100f14;
+  --color-acento: #6e2fe7;
+  --color-texto: #dedede;
+  --color-texto-secundario: #7f7f7f;
+
+  --font-bold: Satoshi-Bold;
+  --font-medium: Satoshi-Medium;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-texto);
+}
+
