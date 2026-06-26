@@ -1,20 +1,27 @@
 <template>
   <nav class="navbar">
     <RouterLink :to="{ name: 'inicio' }" class="navbar__item">
-      <span class="navbar__icono">🏠</span>
+      <IconHome width="24" height="24" :color="rutaActual === 'inicio' ? '#6e2fe7' : '#7F7F7F'" />
       <span class="navbar__label">Inicio</span>
     </RouterLink>
     <RouterLink :to="{ name: 'buscar' }" class="navbar__item">
-      <span class="navbar__icono">🔍</span>
+      <IconSearch width="24" height="24" :color="rutaActual === 'buscar' ? '#6e2fe7' : '#7F7F7F'" />
       <span class="navbar__label">Buscar</span>
     </RouterLink>
     <RouterLink :to="{ name: 'favoritos' }" class="navbar__item">
-      <span class="navbar__icono">♡</span>
+      <IconFavorite width="24" height="24" :color="rutaActual === 'favoritos' ? '#6e2fe7' : '#7F7F7F'" />
       <span class="navbar__label">Favoritos</span>
     </RouterLink>
   </nav>
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router'
+import { computed } from 'vue'
+import { RouterLink, useRoute } from 'vue-router'
+import IconHome from '@/components/icons/IconHome.vue'
+import IconSearch from '@/components/icons/IconSearch.vue'
+import IconFavorite from '@/components/icons/IconFavorite.vue'
+
+const ruta = useRoute()
+const rutaActual = computed(() => ruta.name)
 </script>

@@ -25,7 +25,10 @@
     </div>
 
     <p v-if="cargando">Cargando...</p>
-    <p v-if="!cargando && peliculas.length === 0 && consultaActual">No se encontraron resultados</p>
+    <div v-if="!cargando && peliculas.length === 0 && consultaActual" class="buscar__sin-resultados">
+      <IconNoResult width="141" height="119" />
+      <p>No se encontraron resultados</p>
+    </div>
 
     <div v-if="!cargando" class="buscar__grilla">
       <MovieCard v-for="pelicula in peliculasFiltradas" :key="pelicula.id" :pelicula="pelicula" />
@@ -38,6 +41,7 @@ import { ref, computed, onMounted } from 'vue'
 import { buscarPeliculas, obtenerGeneros} from '@/api/tmdb.js'
 import MovieCard from '@/components/MovieCard.vue'
 import SearchBar from '@/components/SearchBar.vue'
+import IconNoResult from '@/components/icons/IconNoResult.vue'
 
 const peliculas = ref([])
 const generos = ref([])

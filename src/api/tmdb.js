@@ -20,7 +20,7 @@ export const buscarPeliculas = (consulta, pagina = 1) =>
     obtener('/search/movie', { query: consulta, page: pagina })
 
 export const obtenerDetallePelicula = (id) =>
-    obtener(`/movie/${id}`)
+    obtener(`/movie/${id}`, { append_to_response: 'release_dates' })
 
 export const obtenerCreditosPelicula = (id) =>
     obtener(`/movie/${id}/credits`)
@@ -32,4 +32,4 @@ export const obtenerPeliculasSimilares = (id) =>
     obtener(`/movie/${id}/similar`)
 
 export const obtenerGeneros = () =>
-  obtener('/genre/movie/list')
+    obtener('/genre/movie/list')
