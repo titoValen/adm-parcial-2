@@ -8,7 +8,10 @@
     />
     <div class="tarjeta__info">
       <h3 class="tarjeta__titulo">{{ pelicula.title }}</h3>
-      <span class="tarjeta__rating"> {{ pelicula.vote_average?.toFixed(1) }}</span>
+      <span class="tarjeta__rating">
+        <IconStar width="11" height="11" />
+        {{ pelicula.vote_average?.toFixed(1) }}
+      </span>
       <span class="tarjeta__anio">{{ pelicula.release_date?.slice(0, 4) }}</span>
     </div>
   </RouterLink>
@@ -16,6 +19,7 @@
 
 <script setup>
 import { RouterLink } from 'vue-router'
+import IconStar from '@/components/icons/IconStar.vue'
 
 defineProps({
   pelicula: {
