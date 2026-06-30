@@ -31,3 +31,10 @@ body {
   color: var(--color-texto);
 }
 
+#app {
+  min-height: 100dvh;
+}
+
+a {
+  text-decoration: none;
+}
