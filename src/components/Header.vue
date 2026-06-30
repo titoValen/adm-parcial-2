@@ -8,7 +8,6 @@
   <template v-else-if="rutaActual === 'favoritos'">
     <header class="header">
       <h1 class="header__title">Favoritos</h1>
-      <p class="header__subtitle">Tus películas favoritas en un solo lugar</p>
     </header>
   </template>
   <template v-else-if="rutaActual === 'inicio'">
