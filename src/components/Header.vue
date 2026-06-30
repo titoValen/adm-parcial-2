@@ -32,7 +32,7 @@ const rutaActual = computed(() => ruta.name)
 
 <style scoped>
 .header {
-  margin: 1.5625rem 0 1.875rem 1.5625rem;
+  margin-bottom: 1.875rem;
 }
 
 .header figure img {
