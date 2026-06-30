@@ -30,4 +30,12 @@ const ruta = useRoute()
 const rutaActual = computed(() => ruta.name)
 </script>
 
-<style scoped></style>
+<style scoped>
+.header {
+  margin: 1.5625rem 0 1.875rem 1.5625rem;
+}
+
+.header figure img {
+  width: clamp(100px, 20vw, 150px);
+}
+</style>
