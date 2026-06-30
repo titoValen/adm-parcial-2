@@ -35,6 +35,23 @@ body {
   min-height: 100dvh;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-bold);
+}
+
+p,
+span,
+a,
+li,
+input {
+  font-family: var(--font-medium);
+}
+
 a {
   text-decoration: none;
 }
