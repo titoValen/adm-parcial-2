@@ -1,8 +1,5 @@
 <template>
   <main class="buscar">
-    <h1 class="buscar__titulo">Buscar</h1>
-    <p class="buscar__subtitulo">Encontrá tu próxima película favorita</p>
-
     <SearchBar @buscar="alBuscar" />
 
     <div class="buscar__generos">
@@ -54,7 +51,7 @@ onMounted(async () => {
   try {
     const datos = await obtenerGeneros()
     generos.value = datos.genres
-  } catch (e) {
+  } catch {
     console.error('Error al cargar géneros')
   }
 })
@@ -80,7 +77,7 @@ const alBuscar = (consulta) => {
     try {
       const datos = await buscarPeliculas(consulta)
       peliculas.value = datos.results
-    } catch (e) {
+    } catch {
       console.error('Error al buscar películas')
     } finally {
       cargando.value = false
