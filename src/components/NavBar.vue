@@ -1,15 +1,15 @@
 <template>
   <nav class="navbar">
     <RouterLink :to="{ name: 'inicio' }" class="navbar__item">
-      <IconHome width="24" height="24" :color="rutaActual === 'inicio' ? '#6e2fe7' : '#7F7F7F'" />
+      <IconHome :width="24" :height="24" :color="rutaActual === 'inicio' ? '#6e2fe7' : '#7F7F7F'" />
       <span class="navbar__label" :style="{ color: rutaActual === 'inicio' ? '#6e2fe7' : '#7F7F7F' }">Inicio</span>
     </RouterLink>
     <RouterLink :to="{ name: 'buscar' }" class="navbar__item">
-      <IconSearch width="24" height="24" :color="rutaActual === 'buscar' ? '#6e2fe7' : '#7F7F7F'" />
+      <IconSearch :width="24" :height="24" :color="rutaActual === 'buscar' ? '#6e2fe7' : '#7F7F7F'" />
       <span class="navbar__label" :style="{ color: rutaActual === 'buscar' ? '#6e2fe7' : '#7F7F7F' }">Buscar</span>
     </RouterLink>
     <RouterLink :to="{ name: 'favoritos' }" class="navbar__item">
-      <IconFavorite width="24" height="24" :color="rutaActual === 'favoritos' ? '#6e2fe7' : '#7F7F7F'" />
+      <IconFavorite :width="24" :height="24" :color="rutaActual === 'favoritos' ? '#6e2fe7' : '#7F7F7F'" />
       <span class="navbar__label" :style="{ color: rutaActual === 'favoritos' ? '#6e2fe7' : '#7F7F7F' }">Favoritos</span>
     </RouterLink>
   </nav>
@@ -25,3 +25,14 @@ import IconFavorite from '@/components/icons/IconFavorite.vue'
 const ruta = useRoute()
 const rutaActual = computed(() => ruta.name)
 </script>
+
+<style scoped>
+.navbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: fit-content;
+  margin: 0 auto;
+}
+</style>
