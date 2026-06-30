@@ -38,4 +38,9 @@ const rutaActual = computed(() => ruta.name)
 .header figure img {
   width: clamp(100px, 20vw, 150px);
 }
+
+.header__subtitle {
+  font-size: 1.125rem;
+  color: var(--color-texto-secundario);
+}
 </style>
