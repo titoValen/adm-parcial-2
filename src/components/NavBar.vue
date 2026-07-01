@@ -35,4 +35,5 @@ const rutaActual = computed(() => ruta.name)
   width: fit-content;
   margin: 0 auto;
 }
+
 </style>
