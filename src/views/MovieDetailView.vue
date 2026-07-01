@@ -7,12 +7,19 @@
 
       <!-- Header -->
       <div class="detalle__header">
-        <button class="detalle__volver" @click="volver">‹</button>
-        <button class="detalle__btn-favorito" @click="toggleFavorito">
+        <button class="detalle__volver" @click="volver">
+          <IconBack
+            width="32"
+            height="32"
+            color="#7F7F7F"
+          />
+        </button>
+        <button class="detalle__btn-favorito" @click="toggleFavorito" :aria-pressed="esFavoritoActual">
           <IconFavorite
             width="24"
             height="24"
-            :color="esFavoritoActual ? '#6e2fe7' : '#dedede'"
+            :filled="esFavoritoActual"
+            :color="esFavoritoActual ? '#6e2fe7' : '#b9b9b9'"
           />
         </button>
       </div>
@@ -153,7 +160,7 @@ import IconStar from '@/components/icons/IconStar.vue'
 import AppButton from '@/components/Button.vue'
 import IconDuracion from '@/components/icons/IconDuracion.vue'
 import IconDirector from '@/components/icons/IconDirector.vue'
-
+import IconBack from '@/components/icons/IconBack.vue'
 
 const ruta = useRoute()
 const enrutador = useRouter()
@@ -221,6 +228,66 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+/* Contenedor principal */
+.detalle {
+  position: relative;
+}
+
+/* Header */
+.detalle__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: absolute;
+  top: 1.25rem;
+  left: 1rem;
+  right: 1rem;
+  z-index: 2;
+}
+
+.detalle__volver,
+.detalle__btn-favorito {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(15, 11, 31, 0.7);
+  color: var(--color-texto);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(14px);
+}
+
+.detalle__volver {
+  width: auto;
+  height: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  backdrop-filter: none;
+  box-shadow: none;
+  color: var(--color-texto-secundario);
+}
+
+.detalle__btn-favorito {
+  margin-left: auto;
+}
+
+.detalle__btn-favorito[aria-pressed='true'] {
+  border-color: rgba(110, 47, 231, 0.28);
+  background: rgba(110, 47, 231, 0.16);
+  box-shadow: 0 0 0 1px rgba(110, 47, 231, 0.08);
+}
+
+.detalle__volver:focus-visible,
+.detalle__btn-favorito:focus-visible {
+  outline: 2px solid var(--color-acento);
+  outline-offset: 2px;
+}
+
 /* Duración y Director */
 .detalle__datos {
   display: flex;
