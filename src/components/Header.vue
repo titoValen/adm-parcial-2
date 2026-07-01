@@ -8,7 +8,6 @@
   <template v-else-if="rutaActual === 'favoritos'">
     <header class="header">
       <h1 class="header__title">Favoritos</h1>
-      <p class="header__subtitle">Tus películas favoritas en un solo lugar</p>
     </header>
   </template>
   <template v-else-if="rutaActual === 'inicio'">
@@ -37,5 +36,10 @@ const rutaActual = computed(() => ruta.name)
 
 .header figure img {
   width: clamp(100px, 20vw, 150px);
+}
+
+.header__subtitle {
+  font-size: 1.125rem;
+  color: var(--color-texto-secundario);
 }
 </style>
