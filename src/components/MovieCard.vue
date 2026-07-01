@@ -28,3 +28,51 @@ defineProps({
   },
 })
 </script>
+
+
+<style scoped>
+.tarjeta {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.tarjeta__poster {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+
+.tarjeta__info {
+  position: relative;
+  margin-top: 8px;
+}
+
+.tarjeta__titulo {
+  font-size: 16px;
+  font-weight: 500;
+  color: #DEDEDE;
+  margin: 0;
+}
+
+.tarjeta__rating {
+  position: absolute;
+  top: -240px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #0C0A17;
+  color: #dedede;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+
+.tarjeta__anio {
+  display: none;
+}
+</style>

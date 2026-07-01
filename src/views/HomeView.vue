@@ -30,6 +30,22 @@ onMounted(async () => {
 })
 </script>
 
-<style scoped>
 
+<style scoped>
+.inicio {
+  padding-bottom: 120px;
+}
+
+.inicio__titulo {
+  font-size: 25px;
+  font-weight: 700;
+  color: #DEDEDE;
+  margin-bottom: 20px;
+}
+
+.inicio__grilla {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px 20px; /* primer valor: espacio vertical, segundo: horizontal */
+}
 </style>
