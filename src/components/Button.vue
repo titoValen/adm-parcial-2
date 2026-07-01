@@ -1,6 +1,8 @@
 <template>
   <button class="button" :style="{ width: width ? width + 'px' : '100%' }">
-    <slot></slot>
+    <span class="button__contenido">
+      <slot></slot>
+    </span>
   </button>
 </template>
 
@@ -15,6 +17,7 @@ defineProps({
 </script>
 
 <style scoped>
+
 .button {
   background-color: var(--color-acento);
   color: var(--color-texto);
@@ -31,6 +34,15 @@ defineProps({
   transition-property: box-shadow;
   font-family: var(--font-bold);
 }
+.button__contenido {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-bold);
+  font-size: 1rem;
+}
+
   
 .button:hover {
   box-shadow: 0 0 5px var(--color-acento),
