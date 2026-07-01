@@ -54,14 +54,10 @@
           </span>
         </div>
 
-        <button class="detalle__favorito" @click="toggleFavorito">
-          <IconFavorite
-            width="20"
-            height="20"
-            :color="esFavoritoActual ? '#dedede' : '#dedede'"
-          />
+        <AppButton @click="toggleFavorito">
+          <IconFavorite width="20" height="20" color="#dedede" />
           {{ esFavoritoActual ? 'Quitar de favoritos' : 'Agregar a favoritos' }}
-        </button>
+        </AppButton>
       </div>
 
       <!-- Sinopsis -->
@@ -73,12 +69,18 @@
       <!-- Duración y Director -->
       <div class="detalle__datos">
         <div class="detalle__dato">
-          <span class="detalle__dato-label">Duración</span>
-          <span class="detalle__dato-valor">{{ duracionFormateada }}</span>
+          <IconDuracion width="26" height="26" />
+          <div class="detalle__dato-texto">
+            <span class="detalle__dato-label">Duración</span>
+            <span class="detalle__dato-valor">{{ duracionFormateada }}</span>
+          </div>
         </div>
         <div class="detalle__dato">
-          <span class="detalle__dato-label">Director</span>
-          <span class="detalle__dato-valor">{{ director?.name || 'N/D' }}</span>
+          <IconDirector width="26" height="26" />
+          <div class="detalle__dato-texto">
+            <span class="detalle__dato-label">Director</span>
+            <span class="detalle__dato-valor">{{ director?.name || 'N/D' }}</span>
+          </div>
         </div>
       </div>
 
@@ -148,6 +150,10 @@ import { agregarFavorito, eliminarFavorito, esFavorito } from '@/stores/favorito
 import MovieCard from '@/components/MovieCard.vue'
 import IconFavorite from '@/components/icons/IconFavorite.vue'
 import IconStar from '@/components/icons/IconStar.vue'
+import AppButton from '@/components/Button.vue'
+import IconDuracion from '@/components/icons/IconDuracion.vue'
+import IconDirector from '@/components/icons/IconDirector.vue'
+
 
 const ruta = useRoute()
 const enrutador = useRouter()
@@ -213,3 +219,110 @@ onMounted(async () => {
     }
 })
 </script>
+
+<style scoped>
+/* Duración y Director */
+.detalle__datos {
+  display: flex;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.detalle__dato {
+  flex: 1;
+  background-color: var(--color-background-nav-bar);
+  border-radius: 12px;
+  padding: 0.875rem 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.detalle__dato-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.detalle__dato-label {
+  font-size: 0.7rem;
+  color: var(--color-texto-secundario);
+  font-family: var(--font-medium);
+}
+
+.detalle__dato-valor {
+  font-size: 0.95rem;
+  color: var(--color-texto);
+  font-family: var(--font-bold);
+}
+
+/* Elenco */
+.detalle__elenco {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  scrollbar-width: none;
+}
+
+.detalle__elenco::-webkit-scrollbar {
+  display: none;
+}
+
+.detalle__actor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.375rem;
+  min-width: 64px;
+}
+
+.detalle__actor-foto {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: var(--color-background-nav-bar);
+}
+
+.detalle__actor-foto--vacio {
+  background-color: var(--color-background-nav-bar);
+}
+
+.detalle__actor-nombre {
+  font-size: 0.65rem;
+  color: var(--color-texto);
+  font-family: var(--font-bold);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 64px;
+}
+
+.detalle__actor-personaje {
+  font-size: 0.6rem;
+  color: var(--color-texto-secundario);
+  font-family: var(--font-medium);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 64px;
+}
+
+/* Plataformas */
+.detalle__plataformas {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.detalle__plataforma-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+</style>
