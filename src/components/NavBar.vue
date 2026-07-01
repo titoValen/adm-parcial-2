@@ -1,4 +1,5 @@
 <template>
+  <div class="navbar__fade"></div>
   <nav class="navbar">
     <RouterLink :to="{ name: 'inicio' }" class="navbar__item">
       <IconHome :width="24" :height="24" :color="rutaActual === 'inicio' ? '#6e2fe7' : '#7F7F7F'" />
@@ -26,14 +27,50 @@ const ruta = useRoute()
 const rutaActual = computed(() => ruta.name)
 </script>
 
+
 <style scoped>
-.navbar {
+.navbar__fade {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  width: fit-content;
-  margin: 0 auto;
+  height: 200px;
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 1) 70%);
+  pointer-events: none;
+  z-index: 10;
 }
 
+.navbar {
+  position: fixed;
+  bottom: 15px;
+  left: 0;
+  right: 0;
+  width: 90%;
+  max-width: 450px;
+  margin: 0 auto;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  background-color: #0C0A17;
+  border-radius: 999px;
+  padding: 12px 28px;
+
+  z-index: 20;
+}
+
+.navbar__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+}
+
+
+.navbar__label {
+  font-size: 12px;
+  font-weight: 500;
+}
 </style>
