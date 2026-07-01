@@ -2,27 +2,38 @@
   <main class="buscar">
     <SearchBar @buscar="alBuscar" />
 
-    <div class="buscar__generos">
-      <button
+    <div 
+      ref="contenedorGeneros"
+      class="buscar__generos"
+      :class="{ 'buscar__generos--arrastrando': estaArrastrando }"
+      @mousedown="iniciarArrastre"
+      @mouseleave="detenerArrastre"
+      @mouseup="detenerArrastre"
+      @mousemove="moverArrastre"
+    >
+      <Chips
         class="buscar__chip"
-        :class="{ 'buscar__chip--activo': generoSeleccionado === '' }"
+        :active="generoSeleccionado === ''"
         @click="seleccionarGenero('')"
       >
         Todos
-      </button>
-      <button
+      </Chips>
+      <Chips
         v-for="genero in generos"
         :key="genero.id"
         class="buscar__chip"
-        :class="{ 'buscar__chip--activo': generoSeleccionado === genero.id }"
+        :active="generoSeleccionado === genero.id"
         @click="seleccionarGenero(genero.id)"
       >
         {{ genero.name }}
-      </button>
+      </Chips>
     </div>
 
     <p v-if="cargando">Cargando...</p>
-    <div v-if="!cargando && peliculas.length === 0 && consultaActual" class="buscar__sin-resultados">
+    <div
+      v-if="!cargando && peliculas.length === 0 && consultaActual"
+      class="buscar__sin-resultados"
+    >
       <IconNoResult width="141" height="119" />
       <p>No se encontraron resultados</p>
     </div>
@@ -35,17 +46,25 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { buscarPeliculas, obtenerGeneros} from '@/api/tmdb.js'
+import { buscarPeliculas, obtenerGeneros } from '@/api/tmdb.js'
 import MovieCard from '@/components/MovieCard.vue'
 import SearchBar from '@/components/SearchBar.vue'
 import IconNoResult from '@/components/icons/IconNoResult.vue'
+import Chips from '@/components/Chips.vue'
 
 const peliculas = ref([])
 const generos = ref([])
 const generoSeleccionado = ref('')
 const consultaActual = ref('')
 const cargando = ref(false)
+
+const contenedorGeneros = ref(null)
+const estaArrastrando = ref(false)
+
 let temporizador = null
+let esClick = false
+let posicionInicialX = 0
+let scrollIzquierda = 0
 
 onMounted(async () => {
   try {
@@ -58,9 +77,7 @@ onMounted(async () => {
 
 const peliculasFiltradas = computed(() => {
   if (!generoSeleccionado.value) return peliculas.value
-  return peliculas.value.filter((p) =>
-    p.genre_ids.includes(Number(generoSeleccionado.value)),
-  )
+  return peliculas.value.filter((p) => p.genre_ids.includes(Number(generoSeleccionado.value)))
 })
 
 const alBuscar = (consulta) => {
@@ -86,6 +103,54 @@ const alBuscar = (consulta) => {
 }
 
 const seleccionarGenero = (idGenero) => {
-  generoSeleccionado.value = idGenero
+  if (!estaArrastrando.value) {
+    generoSeleccionado.value = idGenero
+  }
+}
+
+const iniciarArrastre = (e) => {
+  esClick = true
+  posicionInicialX = e.clientX - contenedorGeneros.value.offsetLeft
+  scrollIzquierda = contenedorGeneros.value.scrollLeft
+}
+
+const detenerArrastre = () => {
+  esClick = false
+  setTimeout(() => {
+    estaArrastrando.value = false
+  }, 50)
+}
+
+const moverArrastre = (e) => {
+  if (!esClick) return
+  e.preventDefault()
+
+  estaArrastrando.value = true
+
+  const x = e.clientX - contenedorGeneros.value.offsetLeft
+  const distancia = (x - posicionInicialX) * 1.5
+  contenedorGeneros.value.scrollLeft = scrollIzquierda - distancia
 }
 </script>
+
+<style scoped>
+.buscar__generos {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  user-select: none;
+  cursor: grab;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.buscar__generos::-webkit-scrollbar {
+  display: none;
+}
+
+.buscar__generos--arrastrando {
+  cursor: grabbing;
+}
+</style>
