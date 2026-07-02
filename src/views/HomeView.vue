@@ -16,13 +16,16 @@ import MovieCard from '@/components/MovieCard.vue'
 
 const peliculas = ref([])
 const cargando = ref(false)
+const error = ref(null)
 
 onMounted(async () => {
   cargando.value = true
   try {
     const datos = await obtenerPeliculasPopulares()
     peliculas.value = datos.results
+    error.value = null
   } catch {
+    error.value = 'Error al cargar las películas'
     console.error('Error al cargar las películas')
   } finally {
     cargando.value = false
@@ -33,7 +36,6 @@ onMounted(async () => {
 
 <style scoped>
 .inicio {
-  padding-bottom: 120px;
   padding: 2rem 2.5rem 120px;
 }
 

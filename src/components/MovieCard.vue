@@ -7,6 +7,14 @@
         :alt="pelicula.title"
         class="tarjeta__poster"
       />
+      <button type="button" class="tarjeta__favorito" @click.prevent="alternarFavorito">
+        <IconFavorite
+          width="18"
+          height="18"
+          :filled="esFavoritoActual"
+          :color="esFavoritoActual ? '#6e2fe7' : '#7F7F7F'"
+        />
+      </button>
       <span class="tarjeta__rating">
         <IconStar width="11" height="11" />
         {{ pelicula.vote_average?.toFixed(1) }}
@@ -14,20 +22,36 @@
     </div>
     <div class="tarjeta__info">
       <h3 class="tarjeta__titulo">{{ pelicula.title }}</h3>
+      <span class="tarjeta__anio">{{ pelicula.release_date?.slice(0, 4) }}</span>
     </div>
   </RouterLink>
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
+import { agregarFavorito, eliminarFavorito, esFavorito } from '@/stores/favoritos.js'
+import IconFavorite from '@/components/icons/IconFavorite.vue'
 import IconStar from '@/components/icons/IconStar.vue'
 
-defineProps({
+const props = defineProps({
   pelicula: {
     type: Object,
     required: true,
   },
 })
+
+const esFavoritoActual = ref(esFavorito(props.pelicula.id))
+
+const alternarFavorito = () => {
+  if (esFavoritoActual.value) {
+    eliminarFavorito(props.pelicula.id)
+  } else {
+    agregarFavorito(props.pelicula)
+  }
+
+  esFavoritoActual.value = !esFavoritoActual.value
+}
 </script>
 
 
@@ -50,6 +74,17 @@ defineProps({
   display: block;
 }
 
+.tarjeta__info {
+  margin-top: 8px;
+}
+
+.tarjeta__titulo {
+  font-size: 16px;
+  font-weight: 500;
+  color: #dedede;
+  margin: 0;
+}
+
 .tarjeta__rating {
   position: absolute;
   top: 8px;
@@ -65,18 +100,22 @@ defineProps({
   border-radius: 999px;
 }
 
-.tarjeta__info {
-  margin-top: 8px;
-}
-
-.tarjeta__titulo {
-  font-size: 14px;
-  font-weight: 500;
-  color: #dedede;
-  margin: 0;
-}
-
 .tarjeta__anio {
   display: none;
+}
+
+.tarjeta__favorito {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.6);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 </style>
