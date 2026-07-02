@@ -1,13 +1,13 @@
 <script setup>
 defineProps({
   width: {
-    type: String,
+    type: Number,
     required: true,
   },
   height: {
-    type: String,
+    type: Number,
     required: true,
-  }
+  },
 })
 </script>
 
