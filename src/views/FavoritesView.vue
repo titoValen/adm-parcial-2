@@ -32,3 +32,41 @@ onMounted(() => {
   peliculas.value = obtenerFavoritos()
 })
 </script>
+
+
+<style scoped>
+.favoritos {
+  padding-bottom: 120px;
+}
+
+/* --- Estado vacío --- */
+.favoritos__vacio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 80px;
+  padding: 0 15px;
+}
+
+.favoritos__vacio-titulo {
+  color: #dedede;
+  font-size: 20px;
+  font-weight: 700;
+  margin-top: 50px;
+  margin-bottom: 12px;
+}
+
+.favoritos__vacio-subtitulo {
+  color: #7f7f7f;
+  font-size: 16px;
+  margin-bottom: 32px;
+}
+
+/* --- grilla cuando hay favoritos --- */
+.favoritos__grilla {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px 20px;
+}
+</style>

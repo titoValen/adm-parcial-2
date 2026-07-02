@@ -46,6 +46,6 @@ onMounted(async () => {
 .inicio__grilla {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 30px 20px; /* primer valor: espacio vertical, segundo: horizontal */
+  gap: 30px 20px;
 }
 </style>

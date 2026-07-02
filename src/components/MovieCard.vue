@@ -1,11 +1,16 @@
 <template>
   <RouterLink :to="{ name: 'detalle-pelicula', params: { id: pelicula.id } }" class="tarjeta">
-    <img
-      v-if="pelicula.poster_path"
-      :src="`https://image.tmdb.org/t/p/w500${pelicula.poster_path}`"
-      :alt="pelicula.title"
-      class="tarjeta__poster"
-    />
+    <div class="tarjeta__imagen-container">
+      <img
+        v-if="pelicula.poster_path"
+        :src="`https://image.tmdb.org/t/p/w500${pelicula.poster_path}`"
+        :alt="pelicula.title"
+        class="tarjeta__poster"
+      />
+      <button class="tarjeta__favorito" @click.prevent="alternarFavorito">
+        <IconFavorite width="18" height="18" color="#6e2fe7" />
+      </button>
+    </div>
     <div class="tarjeta__info">
       <h3 class="tarjeta__titulo">{{ pelicula.title }}</h3>
       <span class="tarjeta__rating">
@@ -53,7 +58,7 @@ defineProps({
 .tarjeta__titulo {
   font-size: 16px;
   font-weight: 500;
-  color: #DEDEDE;
+  color: #dedede;
   margin: 0;
 }
 
@@ -64,7 +69,7 @@ defineProps({
   display: flex;
   align-items: center;
   gap: 4px;
-  background-color: #0C0A17;
+  background-color: #0c0a17;
   color: #dedede;
   font-size: 12px;
   font-weight: 600;
@@ -74,5 +79,24 @@ defineProps({
 
 .tarjeta__anio {
   display: none;
+}
+
+.tarjeta__imagen-contenedor {
+  position: relative;
+}
+
+.tarjeta__favorito {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.6);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 </style>
