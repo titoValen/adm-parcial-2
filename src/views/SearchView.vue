@@ -2,7 +2,7 @@
   <main class="buscar">
     <SearchBar @buscar="alBuscar" />
 
-    <div 
+    <div
       ref="contenedorGeneros"
       class="buscar__generos"
       :class="{ 'buscar__generos--arrastrando': estaArrastrando }"
@@ -13,8 +13,8 @@
     >
       <Chips
         class="buscar__chip"
-        :active="generoSeleccionado === ''"
-        @click="seleccionarGenero('')"
+        :active="generosSeleccionados.includes('')"
+        @click="seleccionarTodos"
       >
         Todos
       </Chips>
@@ -22,7 +22,7 @@
         v-for="genero in generos"
         :key="genero.id"
         class="buscar__chip"
-        :active="generoSeleccionado === genero.id"
+        :active="generosSeleccionados.includes(genero.id)"
         @click="seleccionarGenero(genero.id)"
       >
         {{ genero.name }}
@@ -31,7 +31,9 @@
 
     <p v-if="cargando">Cargando...</p>
     <div
-      v-if="!cargando && peliculas.length === 0 && consultaActual"
+      v-if="
+        !cargando && peliculasFiltradas.length === 0 && (consultaActual || !estaSeleccionadoTodos)
+      "
       class="buscar__sin-resultados"
     >
       <IconNoResult width="141" height="119" />
@@ -46,7 +48,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { buscarPeliculas, obtenerGeneros } from '@/api/tmdb.js'
+import { buscarPeliculas, obtenerGeneros, obtenerPeliculasPopulares } from '@/api/tmdb.js'
 import MovieCard from '@/components/MovieCard.vue'
 import SearchBar from '@/components/SearchBar.vue'
 import IconNoResult from '@/components/icons/IconNoResult.vue'
@@ -54,12 +56,14 @@ import Chips from '@/components/Chips.vue'
 
 const peliculas = ref([])
 const generos = ref([])
-const generoSeleccionado = ref('')
+const generosSeleccionados = ref([''])
 const consultaActual = ref('')
 const cargando = ref(false)
 
 const contenedorGeneros = ref(null)
 const estaArrastrando = ref(false)
+
+const MAXIMO_GENEROS = 3
 
 let temporizador = null
 let esClick = false
@@ -67,6 +71,8 @@ let posicionInicialX = 0
 let scrollIzquierda = 0
 
 onMounted(async () => {
+  await cargarPeliculasPopulares()
+
   try {
     const datos = await obtenerGeneros()
     generos.value = datos.genres
@@ -75,17 +81,38 @@ onMounted(async () => {
   }
 })
 
+const estaSeleccionadoTodos = computed(() => generosSeleccionados.value.includes(''))
+
 const peliculasFiltradas = computed(() => {
-  if (!generoSeleccionado.value) return peliculas.value
-  return peliculas.value.filter((p) => p.genre_ids.includes(Number(generoSeleccionado.value)))
+  if (estaSeleccionadoTodos.value) return peliculas.value
+
+  const generosActivos = generosSeleccionados.value.filter((genero) => genero !== '')
+  if (generosActivos.length === 0) return peliculas.value
+
+  return peliculas.value.filter((p) =>
+    generosActivos.some((generoId) => p.genre_ids.includes(Number(generoId))),
+  )
 })
+
+const cargarPeliculasPopulares = async () => {
+  cargando.value = true
+
+  try {
+    const datos = await obtenerPeliculasPopulares()
+    peliculas.value = datos.results
+  } catch {
+    console.error('Error al cargar películas populares')
+  } finally {
+    cargando.value = false
+  }
+}
 
 const alBuscar = (consulta) => {
   clearTimeout(temporizador)
   consultaActual.value = consulta
 
   if (!consulta.trim()) {
-    peliculas.value = []
+    cargarPeliculasPopulares()
     return
   }
 
@@ -102,9 +129,31 @@ const alBuscar = (consulta) => {
   }, 400)
 }
 
+const seleccionarTodos = () => {
+  if (!estaArrastrando.value) {
+    generosSeleccionados.value = ['']
+  }
+}
+
 const seleccionarGenero = (idGenero) => {
   if (!estaArrastrando.value) {
-    generoSeleccionado.value = idGenero
+    if (generosSeleccionados.value.includes('')) {
+      generosSeleccionados.value = [idGenero]
+      return
+    }
+
+    if (generosSeleccionados.value.includes(idGenero)) {
+      if (generosSeleccionados.value.length === 1) return
+
+      generosSeleccionados.value = generosSeleccionados.value.filter(
+        (genero) => genero !== idGenero,
+      )
+      return
+    }
+
+    if (generosSeleccionados.value.length >= MAXIMO_GENEROS) return
+
+    generosSeleccionados.value = [...generosSeleccionados.value, idGenero]
   }
 }
 
@@ -152,5 +201,18 @@ const moverArrastre = (e) => {
 
 .buscar__generos--arrastrando {
   cursor: grabbing;
+}
+
+.buscar__grilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 30px 20px;
+  margin-top: 20px;
+}
+
+.buscar__sin-resultados {
+  margin: 2rem 0;
+  display: grid;
+  place-items: center;
 }
 </style>
