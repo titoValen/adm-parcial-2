@@ -151,7 +151,7 @@ import {
   obtenerProveedoresPelicula,
   obtenerPeliculasSimilares,
 } from '@/api/tmdb.js'
-import { agregarFavorito, eliminarFavorito, esFavorito } from '@/stores/favoritos.js'
+import { agregarFavorito, eliminarFavorito, favoritosReactivos } from '@/stores/favoritos.js'
 import MovieCard from '@/components/MovieCard.vue'
 import IconFavorite from '@/components/icons/IconFavorite.vue'
 import IconNoFavorite from '@/components/icons/IconNoFavorite.vue'
@@ -171,7 +171,6 @@ const plataformas = ref([])
 const similares = ref([])
 const cargando = ref(false)
 const error = ref(null)
-const esFavoritoActual = ref(false)
 
 const director = computed(() =>
     creditos.value.crew?.find((persona) => persona.job === 'Director'),
@@ -194,13 +193,16 @@ const clasificacion = computed(() => {
 
 const volver = () => enrutador.back()
 
+const esFavoritoActual = computed(() =>
+    favoritosReactivos.value.some((peliculaFavorita) => peliculaFavorita.id === Number(idPelicula)),
+)
+
 const toggleFavorito = () => {
     if (esFavoritoActual.value) {
-        eliminarFavorito(pelicula.value.id)
+    eliminarFavorito(Number(idPelicula))
     } else {
         agregarFavorito(pelicula.value)
     }
-    esFavoritoActual.value = !esFavoritoActual.value
 }
 
 onMounted(async () => {
@@ -217,7 +219,6 @@ onMounted(async () => {
         creditos.value = credito
         plataformas.value = proveedores.results?.AR?.flatrate || []
         similares.value = parecidas.results || []
-        esFavoritoActual.value = esFavorito(Number(idPelicula))
     } catch (e) {
         error.value = 'Error al cargar el detalle de la película'
     } finally {

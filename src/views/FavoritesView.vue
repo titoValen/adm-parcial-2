@@ -16,30 +16,17 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { obtenerFavoritos } from '@/stores/favoritos.js'
+import { favoritosReactivos } from '@/stores/favoritos.js'
 import MovieCard from '@/components/MovieCard.vue'
 import AppButton from '@/components/Button.vue'
 import IconViewFavorite from '@/components/icons/IconViewFavorite.vue'
 
 const enrutador = useRouter()
-const peliculas = ref([])
+const peliculas = computed(() => favoritosReactivos.value)
 
 const irABuscar = () => enrutador.push({ name: 'buscar' })
-
-const cargarFavoritos = () => {
-  peliculas.value = obtenerFavoritos()
-}
-
-onMounted(() => {
-  cargarFavoritos()
-  window.addEventListener('favoritos-cambiaron', cargarFavoritos)
-})
-
-onBeforeUnmount(() => {
-  window.removeEventListener('favoritos-cambiaron', cargarFavoritos)
-})
 </script>
 
 

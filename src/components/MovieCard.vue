@@ -24,9 +24,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
-import { agregarFavorito, eliminarFavorito, esFavorito } from '@/stores/favoritos.js'
+import { agregarFavorito, eliminarFavorito, favoritosReactivos } from '@/stores/favoritos.js'
 import IconFavorite from '@/components/icons/IconFavorite.vue'
 import IconNoFavorite from '@/components/icons/IconNoFavorite.vue'
 import IconStar from '@/components/icons/IconStar.vue'
@@ -38,7 +38,9 @@ const props = defineProps({
   },
 })
 
-const esFavoritoActual = ref(esFavorito(props.pelicula.id))
+const esFavoritoActual = computed(() =>
+  favoritosReactivos.value.some((peliculaFavorita) => peliculaFavorita.id === props.pelicula.id),
+)
 
 const alternarFavorito = () => {
   if (esFavoritoActual.value) {
@@ -46,8 +48,6 @@ const alternarFavorito = () => {
   } else {
     agregarFavorito(props.pelicula)
   }
-
-  esFavoritoActual.value = !esFavoritoActual.value
 }
 </script>
 
