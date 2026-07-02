@@ -1,37 +1,57 @@
 <template>
   <RouterLink :to="{ name: 'detalle-pelicula', params: { id: pelicula.id } }" class="tarjeta">
-    <div class="tarjeta__imagen-container">
+    <div class="tarjeta__poster-wrapper">
       <img
         v-if="pelicula.poster_path"
         :src="`https://image.tmdb.org/t/p/w500${pelicula.poster_path}`"
         :alt="pelicula.title"
         class="tarjeta__poster"
       />
-      <button class="tarjeta__favorito" @click.prevent="alternarFavorito">
-        <IconFavorite width="18" height="18" color="#6e2fe7" />
+      <button type="button" class="tarjeta__favorito" @click.prevent="alternarFavorito">
+        <IconFavorite
+          width="18"
+          height="18"
+          :filled="esFavoritoActual"
+          :color="esFavoritoActual ? '#6e2fe7' : '#7F7F7F'"
+        />
       </button>
-    </div>
-    <div class="tarjeta__info">
-      <h3 class="tarjeta__titulo">{{ pelicula.title }}</h3>
       <span class="tarjeta__rating">
         <IconStar width="11" height="11" />
         {{ pelicula.vote_average?.toFixed(1) }}
       </span>
+    </div>
+    <div class="tarjeta__info">
+      <h3 class="tarjeta__titulo">{{ pelicula.title }}</h3>
       <span class="tarjeta__anio">{{ pelicula.release_date?.slice(0, 4) }}</span>
     </div>
   </RouterLink>
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
+import { agregarFavorito, eliminarFavorito, esFavorito } from '@/stores/favoritos.js'
+import IconFavorite from '@/components/icons/IconFavorite.vue'
 import IconStar from '@/components/icons/IconStar.vue'
 
-defineProps({
+const props = defineProps({
   pelicula: {
     type: Object,
     required: true,
   },
 })
+
+const esFavoritoActual = ref(esFavorito(props.pelicula.id))
+
+const alternarFavorito = () => {
+  if (esFavoritoActual.value) {
+    eliminarFavorito(props.pelicula.id)
+  } else {
+    agregarFavorito(props.pelicula)
+  }
+
+  esFavoritoActual.value = !esFavoritoActual.value
+}
 </script>
 
 
@@ -40,6 +60,10 @@ defineProps({
   display: block;
   text-decoration: none;
   color: inherit;
+}
+
+.tarjeta__poster-wrapper {
+  position: relative;
 }
 
 .tarjeta__poster {
@@ -51,7 +75,6 @@ defineProps({
 }
 
 .tarjeta__info {
-  position: relative;
   margin-top: 8px;
 }
 
@@ -64,7 +87,7 @@ defineProps({
 
 .tarjeta__rating {
   position: absolute;
-  top: -240px;
+  top: 8px;
   right: 8px;
   display: flex;
   align-items: center;
@@ -79,10 +102,6 @@ defineProps({
 
 .tarjeta__anio {
   display: none;
-}
-
-.tarjeta__imagen-contenedor {
-  position: relative;
 }
 
 .tarjeta__favorito {
