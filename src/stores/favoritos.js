@@ -9,12 +9,14 @@ export const agregarFavorito = (pelicula) => {
     if (!favoritos.find((p) => p.id === pelicula.id)) {
         favoritos.push(pelicula)
         localStorage.setItem(CLAVE_STORAGE, JSON.stringify(favoritos))
+        window.dispatchEvent(new Event('favoritos-cambiaron'))
     }
 }
 
 export const eliminarFavorito = (idPelicula) => {
     const favoritos = obtenerFavoritos().filter((p) => p.id !== idPelicula)
     localStorage.setItem(CLAVE_STORAGE, JSON.stringify(favoritos))
+    window.dispatchEvent(new Event('favoritos-cambiaron'))
 }
 
 export const esFavorito = (idPelicula) => {

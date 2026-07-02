@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import { obtenerFavoritos } from '@/stores/favoritos.js'
 import MovieCard from '@/components/MovieCard.vue'
@@ -28,8 +28,17 @@ const peliculas = ref([])
 
 const irABuscar = () => enrutador.push({ name: 'buscar' })
 
-onMounted(() => {
+const cargarFavoritos = () => {
   peliculas.value = obtenerFavoritos()
+}
+
+onMounted(() => {
+  cargarFavoritos()
+  window.addEventListener('favoritos-cambiaron', cargarFavoritos)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('favoritos-cambiaron', cargarFavoritos)
 })
 </script>
 
