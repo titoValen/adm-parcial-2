@@ -10,6 +10,13 @@
       <h1 class="header__title">Favoritos</h1>
     </header>
   </template>
+  <template v-else-if="rutaActual === 'inicio'">
+    <header class="header header--inicio">
+      <h1 class="header__title">
+        <figure><img src="@/assets/icon/logo_text.svg" alt="Icono de Flicka con su icono y texto"></figure>
+      </h1>
+    </header>
+  </template>
 </template>
 
 <script setup>
@@ -24,7 +31,7 @@ const rutaActual = computed(() => ruta.name)
 
 <style scoped>
 .header {
-  margin-bottom: 1.875rem;
+  margin: 2rem 2.5rem 2rem;
 }
 
 .header figure img {
@@ -38,6 +45,10 @@ const rutaActual = computed(() => ruta.name)
 
 @media (min-width: 1024px) {
   .header figure {
+    display: none;
+  }
+
+  .header--inicio {
     display: none;
   }
 }
