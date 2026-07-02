@@ -42,4 +42,10 @@ const rutaActual = computed(() => ruta.name)
   font-size: 1.125rem;
   color: var(--color-texto-secundario);
 }
+
+@media (min-width: 1024px) {
+  .header figure {
+    display: none;
+  }
+}
 </style>

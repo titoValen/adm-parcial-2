@@ -1,6 +1,9 @@
 <template>
   <div class="navbar__fade"></div>
   <nav class="navbar">
+    <div class="navbar__logo">
+      <img src="@/assets/icon/logo_text.svg" alt="Flicka" class="navbar__logo-img" />
+    </div>
     <RouterLink :to="{ name: 'inicio' }" class="navbar__item">
       <IconHome :width="24" :height="24" :color="rutaActual === 'inicio' ? '#6e2fe7' : '#7F7F7F'" />
       <span class="navbar__label" :style="{ color: rutaActual === 'inicio' ? '#6e2fe7' : '#7F7F7F' }">Inicio</span>
@@ -27,8 +30,8 @@ const ruta = useRoute()
 const rutaActual = computed(() => ruta.name)
 </script>
 
-
 <style scoped>
+/* ── MOBILE (default) ── */
 .navbar__fade {
   position: fixed;
   bottom: 0;
@@ -50,14 +53,19 @@ const rutaActual = computed(() => ruta.name)
   margin: 0 auto;
 
   display: flex;
+  flex-direction: row;
   justify-content: space-around;
   align-items: center;
 
-  background-color: #0C0A17;
+  background-color: #0c0a17;
   border-radius: 999px;
   padding: 12px 28px;
 
   z-index: 20;
+}
+
+.navbar__logo {
+  display: none;
 }
 
 .navbar__item {
@@ -68,9 +76,61 @@ const rutaActual = computed(() => ruta.name)
   text-decoration: none;
 }
 
-
 .navbar__label {
   font-size: 12px;
   font-weight: 500;
+}
+
+/* ── DESKTOP ── */
+@media (min-width: 1024px) {
+  .navbar__fade {
+    display: none;
+  }
+
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: auto;
+    width: 220px;
+    max-width: none;
+    margin: 0;
+
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    border-radius: 0;
+    padding: 2rem 1.5rem;
+    gap: 0.5rem;
+
+    border-right: 1px solid #1a1825;
+  }
+
+  .navbar__logo {
+    display: block;
+    margin-bottom: 2.5rem;
+  }
+
+  .navbar__logo-img {
+    height: 32px;
+  }
+
+  .navbar__item {
+    flex-direction: row;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    width: 100%;
+  }
+
+  .navbar__item:hover {
+    background-color: #1a1825;
+  }
+
+  .navbar__label {
+    font-size: 15px;
+  }
 }
 </style>

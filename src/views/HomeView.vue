@@ -34,18 +34,30 @@ onMounted(async () => {
 <style scoped>
 .inicio {
   padding-bottom: 120px;
+  padding: 2rem 2.5rem 120px;
 }
 
 .inicio__titulo {
   font-size: 25px;
   font-weight: 700;
-  color: #DEDEDE;
+  color: #dedede;
   margin-bottom: 20px;
 }
 
 .inicio__grilla {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 30px 20px; /* primer valor: espacio vertical, segundo: horizontal */
+  gap: 30px 20px;
+}
+
+@media (min-width: 1024px) {
+  .inicio {
+    padding: 2rem 2.5rem 2rem;
+  }
+
+  .inicio__grilla {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 30px 20px;
+  }
 }
 </style>
