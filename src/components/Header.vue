@@ -10,13 +10,6 @@
       <h1 class="header__title">Favoritos</h1>
     </header>
   </template>
-  <template v-else-if="rutaActual === 'inicio'">
-    <header class="header">
-      <h1 class="header__title">
-        <figure><img src="@/assets/icon/logo_text.svg" alt="Icono de Flicka con su icono y texto"></figure>
-      </h1>
-    </header>
-  </template>
 </template>
 
 <script setup>
