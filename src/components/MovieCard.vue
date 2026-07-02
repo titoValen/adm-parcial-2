@@ -8,11 +8,11 @@
         class="tarjeta__poster"
       />
       <button type="button" class="tarjeta__favorito" @click.prevent="alternarFavorito">
-        <IconNoFavorite v-if="!esFavoritoActual" width="18" height="18" />
-        <IconFavorite v-else width="18" height="18" />
+        <IconNoFavorite v-if="!esFavoritoActual" :width="18" :height="18" />
+        <IconFavorite v-else :width="18" :height="18" />
       </button>
       <span class="tarjeta__rating">
-        <IconStar width="11" height="11" />
+        <IconStar :width="11" :height="11" />
         {{ pelicula.vote_average?.toFixed(1) }}
       </span>
     </div>
