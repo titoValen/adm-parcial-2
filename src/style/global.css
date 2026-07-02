@@ -29,11 +29,14 @@
 body {
   background-color: var(--color-background);
   color: var(--color-texto);
-  margin: 1.25rem 1rem 1.25rem 1rem;
 }
 
 #app {
   min-height: 100dvh;
+}
+
+main {
+  margin: 2rem 2.5rem 2rem;
 }
 
 h1,
