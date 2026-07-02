@@ -13,7 +13,7 @@
       <span class="navbar__label" :style="{ color: rutaActual === 'buscar' ? '#6e2fe7' : '#7F7F7F' }">Buscar</span>
     </RouterLink>
     <RouterLink :to="{ name: 'favoritos' }" class="navbar__item">
-      <IconFavorite :width="24" :height="24" :color="rutaActual === 'favoritos' ? '#6e2fe7' : '#7F7F7F'" />
+      <IconNoFavorite :width="24" :height="24" />
       <span class="navbar__label" :style="{ color: rutaActual === 'favoritos' ? '#6e2fe7' : '#7F7F7F' }">Favoritos</span>
     </RouterLink>
   </nav>
@@ -24,7 +24,7 @@ import { computed } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import IconHome from '@/components/icons/IconHome.vue'
 import IconSearch from '@/components/icons/IconSearch.vue'
-import IconFavorite from '@/components/icons/IconFavorite.vue'
+import IconNoFavorite from '@/components/icons/IconNoFavorite.vue'
 
 const ruta = useRoute()
 const rutaActual = computed(() => ruta.name)

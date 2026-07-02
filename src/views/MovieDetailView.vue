@@ -15,12 +15,8 @@
           />
         </button>
         <button class="detalle__btn-favorito" @click="toggleFavorito" :aria-pressed="esFavoritoActual">
-          <IconFavorite
-            width="24"
-            height="24"
-            :filled="esFavoritoActual"
-            :color="esFavoritoActual ? '#6e2fe7' : '#b9b9b9'"
-          />
+          <IconNoFavorite v-if="!esFavoritoActual" width="32" height="32" />
+          <IconFavorite v-else width="32" height="32" />
         </button>
       </div>
 
@@ -61,8 +57,10 @@
           </span>
         </div>
 
+        <!-- Botón de favoritos -->
+
         <AppButton @click="toggleFavorito">
-          <IconFavorite width="20" height="20" color="#dedede" />
+          <IconNoFavorite width="20" height="20" color="var(--color-texto)" />
           {{ esFavoritoActual ? 'Quitar de favoritos' : 'Agregar a favoritos' }}
         </AppButton>
       </div>
@@ -156,6 +154,7 @@ import {
 import { agregarFavorito, eliminarFavorito, esFavorito } from '@/stores/favoritos.js'
 import MovieCard from '@/components/MovieCard.vue'
 import IconFavorite from '@/components/icons/IconFavorite.vue'
+import IconNoFavorite from '@/components/icons/IconNoFavorite.vue'
 import IconStar from '@/components/icons/IconStar.vue'
 import AppButton from '@/components/Button.vue'
 import IconDuracion from '@/components/icons/IconDuracion.vue'
@@ -248,8 +247,8 @@ onMounted(async () => {
 
 .detalle__volver,
 .detalle__btn-favorito {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.16);
   background: rgba(15, 11, 31, 0.7);
@@ -503,5 +502,90 @@ onMounted(async () => {
 .detalle__similares .tarjeta {
   min-width: 140px;
   flex-shrink: 0;
+}
+
+/* ── DESKTOP ── */
+@media (min-width: 1024px) {
+  .detalle {
+    padding-bottom: 3rem;
+  }
+
+  /* Header flotante alineado con el padding del contenido */
+  .detalle__header {
+    top: 2rem;
+    left: 3rem;
+    right: 3rem;
+  }
+
+  /* Hero: poster ancho, a todo el ancho del área de contenido */
+  .detalle__poster-wrapper {
+    height: clamp(420px, 56vh, 620px);
+    margin-bottom: 0;
+  }
+
+  .detalle__poster-overlay {
+    height: 80%;
+  }
+
+  /* Columna centrada única para todo lo que va debajo del hero */
+  .detalle__info,
+  .detalle__seccion,
+  .detalle__datos {
+    margin-inline: auto;
+    padding-inline: 3rem;
+  }
+
+  /* El título "muerde" el degradado del poster, como firma visual */
+  .detalle__info {
+    position: relative;
+    z-index: 2;
+    margin-top: -130px;
+  }
+
+  .detalle__titulo {
+    font-size: 2.75rem;
+    max-width: 620px;
+    text-shadow: 0 4px 20px rgba(2, 0, 5, 0.65);
+  }
+
+  .detalle__meta {
+    font-size: 0.9rem;
+    text-shadow: 0 2px 10px rgba(2, 0, 5, 0.5);
+  }
+
+  .detalle__generos {
+    margin-bottom: 1.75rem;
+  }
+
+  .detalle__seccion-titulo {
+    font-size: 1.35rem;
+  }
+
+  .detalle__sinopsis {
+    font-size: 1rem;
+  }
+
+  .detalle__datos {
+    gap: 1.25rem;
+  }
+
+  .detalle__elenco {
+    gap: 2.5rem;
+  }
+
+  .detalle__actor-foto {
+    width: 88px;
+    height: 88px;
+  }
+
+  .detalle__actor-nombre,
+  .detalle__actor-personaje {
+    max-width: 84px;
+  }
+
+  .detalle__similares {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px 24px;
+  }
 }
 </style>

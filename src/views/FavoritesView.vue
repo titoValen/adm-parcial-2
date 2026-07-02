@@ -3,7 +3,7 @@
     
 
     <div v-if="peliculas.length === 0" class="favoritos__vacio">
-      <IconNoFavorite width="149" height="110" />
+      <IconViewFavorite width="149" height="110" />
       <p class="favoritos__vacio-titulo">No tenés ninguna película en favoritos</p>
       <p class="favoritos__vacio-subtitulo">Las películas que agregues a favoritos aparecerán acá</p>
       <AppButton @click="irABuscar">Explorar películas</AppButton>
@@ -21,7 +21,7 @@ import { useRouter } from 'vue-router'
 import { obtenerFavoritos } from '@/stores/favoritos.js'
 import MovieCard from '@/components/MovieCard.vue'
 import AppButton from '@/components/Button.vue'
-import IconNoFavorite from '@/components/icons/IconNoFavorite.vue'
+import IconViewFavorite from '@/components/icons/IconViewFavorite.vue'
 
 const enrutador = useRouter()
 const peliculas = ref([])

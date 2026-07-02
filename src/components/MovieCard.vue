@@ -8,12 +8,8 @@
         class="tarjeta__poster"
       />
       <button type="button" class="tarjeta__favorito" @click.prevent="alternarFavorito">
-        <IconFavorite
-          width="18"
-          height="18"
-          :filled="esFavoritoActual"
-          :color="esFavoritoActual ? '#6e2fe7' : '#7F7F7F'"
-        />
+        <IconNoFavorite v-if="!esFavoritoActual" width="18" height="18" />
+        <IconFavorite v-else width="18" height="18" />
       </button>
       <span class="tarjeta__rating">
         <IconStar width="11" height="11" />
@@ -32,6 +28,7 @@ import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { agregarFavorito, eliminarFavorito, esFavorito } from '@/stores/favoritos.js'
 import IconFavorite from '@/components/icons/IconFavorite.vue'
+import IconNoFavorite from '@/components/icons/IconNoFavorite.vue'
 import IconStar from '@/components/icons/IconStar.vue'
 
 const props = defineProps({
@@ -108,8 +105,8 @@ const alternarFavorito = () => {
   position: absolute;
   top: 8px;
   left: 8px;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   background-color: rgba(0, 0, 0, 0.6);
   border: none;
