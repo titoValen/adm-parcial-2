@@ -9,8 +9,8 @@
       />
       <button type="button" class="tarjeta__favorito" @click.prevent="alternarFavorito">
         <IconFavorite
-          width="18"
-          height="18"
+          :width="18"
+          :height="18"
           :filled="esFavoritoActual"
           :color="esFavoritoActual ? '#6e2fe7' : '#7F7F7F'"
         />
