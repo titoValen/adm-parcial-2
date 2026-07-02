@@ -33,7 +33,6 @@ onMounted(async () => {
 })
 </script>
 
-
 <style scoped>
 .inicio__titulo {
   font-size: 25px;
@@ -44,14 +43,7 @@ onMounted(async () => {
 
 .inicio__grilla {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 30px 20px;
-}
-
-@media (min-width: 1024px) {
-  .inicio__grilla {
-    grid-template-columns: repeat(5, 1fr);
-    gap: 30px 20px;
-  }
 }
 </style>

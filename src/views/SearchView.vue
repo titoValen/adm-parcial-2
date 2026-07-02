@@ -153,4 +153,11 @@ const moverArrastre = (e) => {
 .buscar__generos--arrastrando {
   cursor: grabbing;
 }
+
+.buscar__grilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 30px 20px;
+  margin-top: 20px;
+}
 </style>
