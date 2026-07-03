@@ -19,43 +19,69 @@
         </button>
       </div>
 
-      <!-- Poster -->
+      <!-- Poster + Info superpuesta -->
       <div class="detalle__poster-wrapper">
+        <img
+          v-if="pelicula.backdrop_path"
+          :src="`https://image.tmdb.org/t/p/w1280${pelicula.backdrop_path}`"
+          :alt="pelicula.title"
+          class="detalle__poster detalle__poster--backdrop"
+        />
         <img
           v-if="pelicula.poster_path"
           :src="`https://image.tmdb.org/t/p/w500${pelicula.poster_path}`"
           :alt="pelicula.title"
-          class="detalle__poster"
+          class="detalle__poster detalle__poster--vertical"
         />
         <div class="detalle__poster-overlay" />
+
+        <!-- Info superpuesta solo en desktop -->
+        <div class="detalle__info-superpuesta">
+          <h1 class="detalle__titulo">{{ pelicula.title }}</h1>
+          <div class="detalle__meta">
+            <span class="detalle__rating">
+              <IconStar width="11" height="11" />
+              {{ pelicula.vote_average?.toFixed(1) }}
+            </span>
+            <span class="detalle__anio">{{ pelicula.release_date?.slice(0, 4) }}</span>
+            <span v-if="pelicula.adult" class="detalle__clasificacion">+18</span>
+            <span v-else-if="clasificacion" class="detalle__clasificacion">{{ clasificacion }}</span>
+          </div>
+          <div class="detalle__generos">
+            <span
+              v-for="genero in pelicula.genres"
+              :key="genero.id"
+              class="detalle__genero-chip"
+            >
+              {{ genero.name }}
+            </span>
+          </div>
+        </div>
       </div>
 
-      <!-- Info principal -->
+      <!-- Info principal (mobile) -->
       <div class="detalle__info">
         <h1 class="detalle__titulo">{{ pelicula.title }}</h1>
-
         <div class="detalle__meta">
           <span class="detalle__rating">
-            <IconStar :width="11" :height="11" />
+            <IconStar width="11" height="11" />
             {{ pelicula.vote_average?.toFixed(1) }}
           </span>
           <span class="detalle__anio">{{ pelicula.release_date?.slice(0, 4) }}</span>
           <span v-if="pelicula.adult" class="detalle__clasificacion">+18</span>
-          <span v-else-if="pelicula.release_dates" class="detalle__clasificacion">
-            {{ clasificacion }}
-          </span>
+          <span v-else-if="clasificacion" class="detalle__clasificacion">{{ clasificacion }}</span>
         </div>
-
         <div class="detalle__generos">
-          <span v-for="genero in pelicula.genres" :key="genero.id" class="detalle__genero-chip">
+          <span
+            v-for="genero in pelicula.genres"
+            :key="genero.id"
+            class="detalle__genero-chip"
+          >
             {{ genero.name }}
           </span>
         </div>
-
-        <!-- Botón de favoritos -->
-
         <AppButton @click="toggleFavorito">
-          <IconNoFavorite :width="20" :height="20" color="var(--color-texto)" />
+          <IconFavorite width="20" height="20" color="#dedede" />
           {{ esFavoritoActual ? 'Quitar de favoritos' : 'Agregar a favoritos' }}
         </AppButton>
       </div>
@@ -391,13 +417,24 @@ watch(idPelicula, cargarDetalle, { immediate: true })
   width: 100%;
   height: 340px;
   margin-bottom: 1rem;
+  overflow: hidden;
 }
-
 .detalle__poster {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+.detalle__poster--vertical {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.detalle__poster--backdrop {
+  display: none;
 }
 
 .detalle__poster-overlay {
@@ -495,6 +532,11 @@ watch(idPelicula, cargarDetalle, { immediate: true })
   flex-shrink: 0;
 }
 
+/* Info superpuesta — oculta en mobile */
+.detalle__info-superpuesta {
+  display: none;
+}
+
 /* ── DESKTOP ── */
 @media (min-width: 1024px) {
   .detalle {
@@ -516,6 +558,17 @@ watch(idPelicula, cargarDetalle, { immediate: true })
 
   .detalle__poster-overlay {
     height: 80%;
+  }
+
+  .detalle__poster--vertical {
+    display: none;
+  }
+  .detalle__poster--backdrop {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
   }
 
   /* Columna centrada única para todo lo que va debajo del hero */
@@ -577,6 +630,27 @@ watch(idPelicula, cargarDetalle, { immediate: true })
   .detalle__similares {
     grid-template-columns: repeat(4, 1fr);
     gap: 32px 24px;
+  }
+}
+
+@media (min-width: 768px) {
+  .detalle__poster-overlay {
+    height: 80%;
+    background: linear-gradient(to bottom, transparent 20%, #020005 100%);
+  }
+
+  .detalle__info-superpuesta {
+    display: block;
+    position: absolute;
+    bottom: 1.5rem;
+    left: 1.5rem;
+    right: 1.5rem;
+    z-index: 2;
+  }
+
+  /* Ocultá la info duplicada en tablet/desktop */
+  .detalle__info {
+    display: none;
   }
 }
 </style>
