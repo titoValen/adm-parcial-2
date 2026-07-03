@@ -654,5 +654,8 @@ watch(idPelicula, cargarDetalle, { immediate: true })
   .detalle__info {
     display: none;
   }
+
+  .detalle__poster--backdrop { display: block; }
+  .detalle__poster--vertical { display: none; }
 }
 </style>
