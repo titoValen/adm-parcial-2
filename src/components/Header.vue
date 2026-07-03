@@ -2,7 +2,7 @@
   <template v-if="rutaActual === 'buscar'">
     <header class="header">
       <h1 class="header__title">Buscar</h1>
-      <p class="header__subtitle">Encontra tu próxima película favorita</p>
+      <p class="header__subtitle">Encontrá tu próxima película favorita</p>
     </header>
   </template>
   <template v-else-if="rutaActual === 'favoritos'">
