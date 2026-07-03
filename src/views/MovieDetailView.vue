@@ -35,7 +35,6 @@
         />
         <div class="detalle__poster-overlay" />
 
-        <!-- Info superpuesta solo en desktop -->
         <div class="detalle__info-superpuesta">
           <h1 class="detalle__titulo">{{ pelicula.title }}</h1>
           <div class="detalle__meta">
@@ -56,9 +55,12 @@
               {{ genero.name }}
             </span>
           </div>
+          <AppButton @click="toggleFavorito">
+            <IconNoFavorite width="20" height="20" color="#dedede" />
+            {{ esFavoritoActual ? 'Quitar de favoritos' : 'Agregar a favoritos' }}
+          </AppButton>
         </div>
       </div>
-
       <!-- Info principal (mobile) -->
       <div class="detalle__info">
         <h1 class="detalle__titulo">{{ pelicula.title }}</h1>
@@ -81,7 +83,7 @@
           </span>
         </div>
         <AppButton @click="toggleFavorito">
-          <IconFavorite width="20" height="20" color="#dedede" />
+          <IconNoFavorite width="20" height="20" color="#dedede" />
           {{ esFavoritoActual ? 'Quitar de favoritos' : 'Agregar a favoritos' }}
         </AppButton>
       </div>
