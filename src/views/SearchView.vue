@@ -37,7 +37,9 @@
       class="buscar__sin-resultados"
     >
       <IconNoResult width="141" height="119" />
-      <p>No se encontraron resultados</p>
+      <p>Sin resultados</p>
+      <p>No encontramos películas que coincidan con tu búsqueda. 
+Probá sacando algún filtro o revisá si escribiste bien el nombre.</p>
     </div>
 
     <div v-if="!cargando" class="buscar__grilla">
@@ -211,8 +213,23 @@ const moverArrastre = (e) => {
 }
 
 .buscar__sin-resultados {
-  margin: 2rem 0;
+  margin: 3rem 0;
   display: grid;
   place-items: center;
+  text-align: center;
 }
+
+.buscar__sin-resultados p:first-of-type {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-top: 20px;
+  color: var(--color-texto);
+}
+
+.buscar__sin-resultados p:nth-of-type(2) {
+  margin-top: 10px;
+  max-width: 400px;
+  color: var(--color-texto-secundario);
+}
+
 </style>
