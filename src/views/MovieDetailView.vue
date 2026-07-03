@@ -14,8 +14,8 @@
           @click="toggleFavorito"
           :aria-pressed="esFavoritoActual"
         >
-          <IconNoFavorite v-if="!esFavoritoActual" width="32" height="32" />
-          <IconFavorite v-else width="32" height="32" />
+          <IconNoFavorite v-if="!esFavoritoActual" :width="32" :height="32" />
+          <IconFavorite v-else :width="32" :height="32" />
         </button>
       </div>
 
@@ -133,7 +133,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {
   obtenerDetallePelicula,
@@ -153,7 +153,7 @@ import IconBack from '@/components/icons/IconBack.vue'
 
 const ruta = useRoute()
 const enrutador = useRouter()
-const idPelicula = ruta.params.id
+const idPelicula = computed(() => Number(ruta.params.id))
 
 const pelicula = ref(null)
 const creditos = ref({})
@@ -182,25 +182,26 @@ const clasificacion = computed(() => {
 const volver = () => enrutador.back()
 
 const esFavoritoActual = computed(() =>
-  favoritosReactivos.value.some((peliculaFavorita) => peliculaFavorita.id === Number(idPelicula)),
+  favoritosReactivos.value.some((peliculaFavorita) => peliculaFavorita.id === idPelicula.value),
 )
 
 const toggleFavorito = () => {
   if (esFavoritoActual.value) {
-    eliminarFavorito(Number(idPelicula))
+    eliminarFavorito(idPelicula.value)
   } else {
     agregarFavorito(pelicula.value)
   }
 }
 
-onMounted(async () => {
+const cargarDetalle = async () => {
   cargando.value = true
+  error.value = null
   try {
     const [detalle, credito, proveedores, parecidas] = await Promise.all([
-      obtenerDetallePelicula(idPelicula),
-      obtenerCreditosPelicula(idPelicula),
-      obtenerProveedoresPelicula(idPelicula),
-      obtenerPeliculasSimilares(idPelicula),
+      obtenerDetallePelicula(idPelicula.value),
+      obtenerCreditosPelicula(idPelicula.value),
+      obtenerProveedoresPelicula(idPelicula.value),
+      obtenerPeliculasSimilares(idPelicula.value),
     ])
 
     pelicula.value = detalle
@@ -212,7 +213,9 @@ onMounted(async () => {
   } finally {
     cargando.value = false
   }
-})
+}
+
+watch(idPelicula, cargarDetalle, { immediate: true })
 </script>
 
 <style scoped>
