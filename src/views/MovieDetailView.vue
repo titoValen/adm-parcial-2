@@ -56,7 +56,8 @@
             </span>
           </div>
           <AppButton @click="toggleFavorito">
-            <IconNoFavorite width="20" height="20" color="#dedede" />
+            <IconFavorite v-if="esFavoritoActual" width="20" height="20" color="#dedede" />
+            <IconNoFavorite v-else width="20" height="20" color="#dedede" />
             {{ esFavoritoActual ? 'Quitar de favoritos' : 'Agregar a favoritos' }}
           </AppButton>
         </div>
@@ -83,7 +84,8 @@
           </span>
         </div>
         <AppButton @click="toggleFavorito">
-          <IconNoFavorite width="20" height="20" color="#dedede" />
+          <IconFavorite v-if="esFavoritoActual" width="20" height="20" color="#dedede" />
+          <IconNoFavorite v-else width="20" height="20" color="#dedede" />
           {{ esFavoritoActual ? 'Quitar de favoritos' : 'Agregar a favoritos' }}
         </AppButton>
       </div>
