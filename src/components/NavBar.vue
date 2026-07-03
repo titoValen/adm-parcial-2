@@ -13,7 +13,7 @@
       <span class="navbar__label" :style="{ color: rutaActual === 'buscar' ? '#6e2fe7' : '#7F7F7F' }">Buscar</span>
     </RouterLink>
     <RouterLink :to="{ name: 'favoritos' }" class="navbar__item">
-      <IconNoFavorite :width="24" :height="24" />
+      <IconNoFavorite :width="24" :height="24" :color="rutaActual === 'favoritos' ? '#6e2fe7' : '#7F7F7F'" />
       <span class="navbar__label" :style="{ color: rutaActual === 'favoritos' ? '#6e2fe7' : '#7F7F7F' }">Favoritos</span>
     </RouterLink>
   </nav>

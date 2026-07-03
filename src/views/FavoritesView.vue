@@ -62,7 +62,7 @@ const irABuscar = () => enrutador.push({ name: 'buscar' })
 /* --- grilla cuando hay favoritos --- */
 .favoritos__grilla {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 30px 20px;
 }
 </style>
