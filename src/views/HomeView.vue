@@ -1,9 +1,11 @@
 <template>
   <main class="inicio">
     <h1 class="inicio__titulo">Películas más populares</h1>
-    <p v-if="cargando">Cargando...</p>
-    <p v-if="error">{{ error }}</p>
-    <div v-if="!cargando" class="inicio__grilla">
+    <div v-if="cargando" class="inicio__grilla">
+      <SkeletorMovieCard v-for="indice in 8" :key="indice" />
+    </div>
+    <p v-else-if="error" class="inicio__error">{{ error }}</p>
+    <div v-else class="inicio__grilla">
       <MovieCard v-for="pelicula in peliculas" :key="pelicula.id" :pelicula="pelicula" />
     </div>
   </main>
@@ -13,6 +15,7 @@
 import { ref, onMounted } from 'vue'
 import { obtenerPeliculasPopulares } from '@/api/tmdb.js'
 import MovieCard from '@/components/MovieCard.vue'
+import SkeletorMovieCard from '@/components/SkeletorMovieCard.vue'
 
 const peliculas = ref([])
 const cargando = ref(false)
@@ -45,5 +48,10 @@ onMounted(async () => {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 30px 20px;
+}
+
+.inicio__error {
+  color: #f08b8b;
+  font-size: 16px;
 }
 </style>
