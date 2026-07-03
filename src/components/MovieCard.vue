@@ -61,13 +61,14 @@ const alternarFavorito = () => {
 
 .tarjeta__poster-wrapper {
   position: relative;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 .tarjeta__poster {
   width: 100%;
   aspect-ratio: 2 / 3;
   object-fit: cover;
-  border-radius: 12px;
   display: block;
 }
 
@@ -114,5 +115,27 @@ const alternarFavorito = () => {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+}
+
+@media (min-width: 1024px) {
+  .tarjeta {
+    transition: transform 0.2s ease;
+  }
+
+  .tarjeta:hover {
+    transform: translateY(-4px);
+  }
+
+  .tarjeta:hover .tarjeta__poster-wrapper {
+    box-shadow: 0 8px 24px 9px rgba(110, 47, 231, 0.25);
+  }
+
+  .tarjeta__poster {
+    transition: filter 0.2s ease;
+  }
+
+  .tarjeta:hover .tarjeta__poster {
+    filter: brightness(1.1);
+  }
 }
 </style>
