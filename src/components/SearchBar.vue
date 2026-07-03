@@ -44,7 +44,7 @@ const alEscribir = () => {
   background-color: var(--color-background-search-bar);
   color: var(--color-texto);
   font-size: 1rem;
-  padding: 0.5rem 1rem 0.5rem 2.25rem;
+  padding: 0.5rem 1rem 0.5rem 3rem;
 }
 
 .buscador__input::placeholder {
