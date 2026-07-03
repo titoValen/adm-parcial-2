@@ -4,19 +4,18 @@
     <p v-if="error">{{ error }}</p>
 
     <div v-if="!cargando && pelicula">
-
       <!-- Header -->
       <div class="detalle__header">
         <button class="detalle__volver" @click="volver">
-          <IconBack
-            width="32"
-            height="32"
-            color="#7F7F7F"
-          />
+          <IconBack :width="32" :height="32" color="#7F7F7F" />
         </button>
-        <button class="detalle__btn-favorito" @click="toggleFavorito" :aria-pressed="esFavoritoActual">
-          <IconNoFavorite v-if="!esFavoritoActual" width="32" height="32" />
-          <IconFavorite v-else width="32" height="32" />
+        <button
+          class="detalle__btn-favorito"
+          @click="toggleFavorito"
+          :aria-pressed="esFavoritoActual"
+        >
+          <IconNoFavorite v-if="!esFavoritoActual" :width="32" :height="32" />
+          <IconFavorite v-else :width="32" :height="32" />
         </button>
       </div>
 
@@ -37,7 +36,7 @@
 
         <div class="detalle__meta">
           <span class="detalle__rating">
-            <IconStar width="11" height="11" />
+            <IconStar :width="11" :height="11" />
             {{ pelicula.vote_average?.toFixed(1) }}
           </span>
           <span class="detalle__anio">{{ pelicula.release_date?.slice(0, 4) }}</span>
@@ -48,11 +47,7 @@
         </div>
 
         <div class="detalle__generos">
-          <span
-            v-for="genero in pelicula.genres"
-            :key="genero.id"
-            class="detalle__genero-chip"
-          >
+          <span v-for="genero in pelicula.genres" :key="genero.id" class="detalle__genero-chip">
             {{ genero.name }}
           </span>
         </div>
@@ -60,7 +55,7 @@
         <!-- Botón de favoritos -->
 
         <AppButton @click="toggleFavorito">
-          <IconNoFavorite width="20" height="20" color="var(--color-texto)" />
+          <IconNoFavorite :width="20" :height="20" color="var(--color-texto)" />
           {{ esFavoritoActual ? 'Quitar de favoritos' : 'Agregar a favoritos' }}
         </AppButton>
       </div>
@@ -74,14 +69,14 @@
       <!-- Duración y Director -->
       <div class="detalle__datos">
         <div class="detalle__dato">
-          <IconDuracion width="26" height="26" />
+          <IconDuracion :width="26" :height="26" />
           <div class="detalle__dato-texto">
             <span class="detalle__dato-label">Duración</span>
             <span class="detalle__dato-valor">{{ duracionFormateada }}</span>
           </div>
         </div>
         <div class="detalle__dato">
-          <IconDirector width="26" height="26" />
+          <IconDirector :width="26" :height="26" />
           <div class="detalle__dato-texto">
             <span class="detalle__dato-label">Director</span>
             <span class="detalle__dato-valor">{{ director?.name || 'N/D' }}</span>
@@ -93,11 +88,7 @@
       <section class="detalle__seccion">
         <h2 class="detalle__seccion-titulo">Elenco</h2>
         <div class="detalle__elenco">
-          <div
-            v-for="actor in creditos.cast?.slice(0, 10)"
-            :key="actor.id"
-            class="detalle__actor"
-          >
+          <div v-for="actor in creditos.cast?.slice(0, 10)" :key="actor.id" class="detalle__actor">
             <img
               v-if="actor.profile_path"
               :src="`https://image.tmdb.org/t/p/w185${actor.profile_path}`"
@@ -137,13 +128,12 @@
           />
         </div>
       </section>
-
     </div>
   </main>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {
   obtenerDetallePelicula,
@@ -163,7 +153,7 @@ import IconBack from '@/components/icons/IconBack.vue'
 
 const ruta = useRoute()
 const enrutador = useRouter()
-const idPelicula = ruta.params.id
+const idPelicula = computed(() => Number(ruta.params.id))
 
 const pelicula = ref(null)
 const creditos = ref({})
@@ -172,59 +162,60 @@ const similares = ref([])
 const cargando = ref(false)
 const error = ref(null)
 
-const director = computed(() =>
-    creditos.value.crew?.find((persona) => persona.job === 'Director'),
-)
+const director = computed(() => creditos.value.crew?.find((persona) => persona.job === 'Director'))
 
 const duracionFormateada = computed(() => {
-    const minutos = pelicula.value?.runtime
-    if (!minutos) return 'N/D'
-    const horas = Math.floor(minutos / 60)
-    const mins = minutos % 60
-    return `${horas}h ${mins}min`
+  const minutos = pelicula.value?.runtime
+  if (!minutos) return 'N/D'
+  const horas = Math.floor(minutos / 60)
+  const mins = minutos % 60
+  return `${horas}h ${mins}min`
 })
 
 const clasificacion = computed(() => {
-    const resultados = pelicula.value?.release_dates?.results
-    if (!resultados) return null
-    const argentina = resultados.find((r) => r.iso_3166_1 === 'AR')
-    return argentina?.release_dates?.[0]?.certification || null
+  const resultados = pelicula.value?.release_dates?.results
+  if (!resultados) return null
+  const argentina = resultados.find((r) => r.iso_3166_1 === 'AR')
+  return argentina?.release_dates?.[0]?.certification || null
 })
 
 const volver = () => enrutador.back()
 
 const esFavoritoActual = computed(() =>
-    favoritosReactivos.value.some((peliculaFavorita) => peliculaFavorita.id === Number(idPelicula)),
+  favoritosReactivos.value.some((peliculaFavorita) => peliculaFavorita.id === idPelicula.value),
 )
 
 const toggleFavorito = () => {
-    if (esFavoritoActual.value) {
-    eliminarFavorito(Number(idPelicula))
-    } else {
-        agregarFavorito(pelicula.value)
-    }
+  if (esFavoritoActual.value) {
+    eliminarFavorito(idPelicula.value)
+  } else {
+    agregarFavorito(pelicula.value)
+  }
 }
 
-onMounted(async () => {
-    cargando.value = true
-    try {
-        const [detalle, credito, proveedores, parecidas] = await Promise.all([
-        obtenerDetallePelicula(idPelicula),
-        obtenerCreditosPelicula(idPelicula),
-        obtenerProveedoresPelicula(idPelicula),
-        obtenerPeliculasSimilares(idPelicula),
-        ])
+const cargarDetalle = async () => {
+  cargando.value = true
+  error.value = null
+  try {
+    const [detalle, credito, proveedores, parecidas] = await Promise.all([
+      obtenerDetallePelicula(idPelicula.value),
+      obtenerCreditosPelicula(idPelicula.value),
+      obtenerProveedoresPelicula(idPelicula.value),
+      obtenerPeliculasSimilares(idPelicula.value),
+    ])
 
-        pelicula.value = detalle
-        creditos.value = credito
-        plataformas.value = proveedores.results?.AR?.flatrate || []
-        similares.value = parecidas.results || []
-    } catch (e) {
-        error.value = 'Error al cargar el detalle de la película'
-    } finally {
-        cargando.value = false
-    }
-})
+    pelicula.value = detalle
+    creditos.value = credito
+    plataformas.value = proveedores.results?.AR?.flatrate || []
+    similares.value = parecidas.results || []
+  } catch {
+    error.value = 'Error al cargar el detalle de la película'
+  } finally {
+    cargando.value = false
+  }
+}
+
+watch(idPelicula, cargarDetalle, { immediate: true })
 </script>
 
 <style scoped>
@@ -420,7 +411,6 @@ onMounted(async () => {
 }
 
 /* --- Info principal --- */
-
 
 .detalle__titulo {
   font-size: 1.5rem;

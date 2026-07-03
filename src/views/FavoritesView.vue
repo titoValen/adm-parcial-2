@@ -3,7 +3,7 @@
     
 
     <div v-if="peliculas.length === 0" class="favoritos__vacio">
-      <IconViewFavorite width="149" height="110" />
+      <IconViewFavorite :width="149" :height="110" />
       <p class="favoritos__vacio-titulo">No tenés ninguna película en favoritos</p>
       <p class="favoritos__vacio-subtitulo">Las películas que agregues a favoritos aparecerán acá</p>
       <AppButton @click="irABuscar">Explorar películas</AppButton>
