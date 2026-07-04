@@ -29,7 +29,9 @@
       </Chips>
     </div>
 
-    <p v-if="cargando">Cargando...</p>
+    <div v-if="cargando" class="buscar__grilla">
+      <SkeletorMovieCard v-for="i in 10" :key="i" />
+    </div>
     <div
       v-if="
         !cargando && peliculasFiltradas.length === 0 && (consultaActual || !estaSeleccionadoTodos)
@@ -62,6 +64,7 @@ import MovieCard from '@/components/MovieCard.vue'
 import SearchBar from '@/components/SearchBar.vue'
 import IconNoResult from '@/components/icons/IconNoResult.vue'
 import Chips from '@/components/Chips.vue'
+import SkeletorMovieCard from '@/components/SkeletorMovieCard.vue'
 
 const peliculas = ref([])
 const generos = ref([])
