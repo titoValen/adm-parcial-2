@@ -1,6 +1,8 @@
 <template>
   <main class="detalle">
-    <p v-if="cargando">Cargando...</p>
+    <div v-if="cargando">
+      <SkeletorDetail />
+    </div>
     <p v-if="error">{{ error }}</p>
 
     <div v-if="!cargando && pelicula">
@@ -180,6 +182,7 @@ import AppButton from '@/components/Button.vue'
 import IconDuracion from '@/components/icons/IconDuracion.vue'
 import IconDirector from '@/components/icons/IconDirector.vue'
 import IconBack from '@/components/icons/IconBack.vue'
+import SkeletorDetail from '@/components/SkeletorDetail.vue'
 
 const ruta = useRoute()
 const enrutador = useRouter()
