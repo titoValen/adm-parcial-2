@@ -33,3 +33,6 @@ export const obtenerPeliculasSimilares = (id) =>
 
 export const obtenerGeneros = () =>
     obtener('/genre/movie/list')
+
+export const obtenerPeliculasPorGenero = (idGenero) =>
+    obtener('/discover/movie', { with_genres: idGenero })
